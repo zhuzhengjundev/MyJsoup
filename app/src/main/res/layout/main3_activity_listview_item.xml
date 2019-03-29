@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="350px"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/main3_activity_listView_Item_iamge"
+        android:layout_width="280px"
+        android:layout_height="match_parent"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:id="@+id/main3_activity_listView_Item_caiming"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center|left"
+            android:textSize="17dp"
+            android:textColor="#666666"
+            android:text="个个都"/>
+
+        <TextView
+            android:id="@+id/main3_activity_listView_Item_time"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:gravity="center|left"
+            android:textSize="11dp"
+            android:textColor="#aaaaaa"
+            android:text="个个都"/>
+
+        <TextView
+            android:id="@+id/main3_activity_listView_Item_peiliao"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center|left|top"
+            android:textSize="12dp"
+            android:textColor="#666666"
+            android:text="个个都"/>
+
+        <TextView
+            android:id="@+id/main3_activity_listView_Item_yuedu"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:gravity="center|left|top"
+            android:layout_marginBottom="10dp"
+            android:textSize="9dp"
+            android:textColor="#666666"
+            android:text="个个都"/>
+
+    </LinearLayout>
+
+</LinearLayout>

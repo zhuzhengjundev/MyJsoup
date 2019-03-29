@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/main3_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/back_ic"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center|left"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:text="返回"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/main3_activity_background"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/main3_activity_touxiang"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/main3_activity_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:gravity="center|left"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:text=""/>
+
+                        <ImageView
+                            android:id="@+id/main3_activity_xingbie"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:padding="5dp"/>
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/main3_activity_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="10dp"
+                        android:text=""/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/main3_activity_fensi"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center|left"
+                            android:layout_height="match_parent"
+                            android:textSize="10dp"/>
+                        <TextView
+                            android:id="@+id/main3_activity_guanzhu"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center|left"
+                            android:layout_height="match_parent"
+                            android:textSize="10dp" />
+                        <TextView
+                            android:id="@+id/main3_activity_fangwen"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center|left"
+                            android:layout_height="match_parent"
+                            android:textSize="10dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/main3_activity_caipu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:layout_margin="10dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/background_title"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/main3_activitySwipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/main3_activity_ListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</LinearLayout>
