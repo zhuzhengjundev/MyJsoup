@@ -102,13 +102,6 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
         fragmentList.add(new Fragment_homePage_1_5());
     }
 
-//    private void replaceFragment(Fragment fragment) {
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.replace(R.id.myFragment_1_fragmentView, fragment);
-//        transaction.commit();
-//    }
-
     private Fragment mFrag;
     private List<Fragment> fragmentList = new ArrayList<>();
     private void loadFragment(int position) {

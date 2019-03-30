@@ -1,6 +1,9 @@
 package cn.edu.jssvc.zhuzhengjun.myjsoup;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,7 +27,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.Buzhou;
@@ -37,13 +42,21 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class TopActivity extends AppCompatActivity implements View.OnTouchListener{
 
+    private MySQLiteOpenHelper mySQLiteOpenHelper;
+    private SQLiteDatabase db;
+
     private LinearLayout linearLayout_back;
+    private ImageView imageView_love;          //收藏
 
     private SwipeRefreshLayout mySwipeRefreshLayout;
 
     private LinearLayout linearLayout_huadong;
 
     private String intent_link;                 //接收的链接
+    private String intent_image;                //接收的图片
+    private String intent_title;                //接收的标题
+    private String intent_zuozhe;               //接收的作者
+    private String intent_time;                 //接收的时间
 
     private TextView textView_title,   //标题
             textView_name,              //网名
@@ -64,10 +77,44 @@ public class TopActivity extends AppCompatActivity implements View.OnTouchListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
+        mySQLiteOpenHelper = new MySQLiteOpenHelper(TopActivity.this, MySQLiteOpenHelper.DBNAME, null, 1);
+        db = mySQLiteOpenHelper.getWritableDatabase();
         Intent intent = getIntent();
         intent_link = intent.getStringExtra("data");
+        intent_image = intent.getStringExtra("image");
+        intent_title = intent.getStringExtra("title");
+        intent_zuozhe = intent.getStringExtra("zuozhe");
+        intent_time = intent.getStringExtra("time");
+        Log.d("收到链接", intent_link + "     收到图片" + intent_image + "     收到标题：" + intent_title + "    收到作者：" + intent_zuozhe + "    收到时间：" + intent_time);
         init();
         getData();
+        addDB_1();
+    }
+
+    private void addDB_1() {
+        ContentValues values = new ContentValues();
+        values.put("link", intent_link);
+        values.put("image", intent_image);
+        values.put("title", intent_title);
+        values.put("zuozhe", intent_zuozhe);
+        values.put("time", intent_time);
+        db.insert("lishi", null, values);
+    }
+
+    private void addDB_2(Boolean is,String time) {
+        if (is) {
+            ContentValues values = new ContentValues();
+            values.put("link", intent_link);
+            values.put("image", intent_image);
+            values.put("title", intent_title);
+            values.put("zuozhe", intent_zuozhe);
+            values.put("time", time);
+            db.insert("love", null, values);
+            Log.d("收藏", "成功");
+        }else {
+            db.delete("love", "title = ?", new String[]{intent_title});
+            Log.d("收藏", "失败");
+        }
     }
 
     private void getData() {
@@ -127,7 +174,7 @@ public class TopActivity extends AppCompatActivity implements View.OnTouchListen
             }
         });
     }
-
+    private Boolean love = false;
     private void init() {
         linearLayout_back = findViewById(R.id.mainTop_back);
         linearLayout_back.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +183,30 @@ public class TopActivity extends AppCompatActivity implements View.OnTouchListen
                 finish();
             }
         });
+        imageView_love = findViewById(R.id.top_love_imageView);
+        imageView_love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (love == false){
+                    imageView_love.setImageResource(R.drawable.shoucang_ic_click);
+                    love = true;
+                    addDB_2(true,new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
+                }else{
+                    imageView_love.setImageResource(R.drawable.shoucang_ic);
+                    love = false;
+                    addDB_2(false,"");
+                }
+            }
+        });
+        Cursor cursor = db.rawQuery("select * from love", null);
+        if (cursor.moveToFirst()) {
+            do {
+                if (intent_title.equals(cursor.getString(cursor.getColumnIndex("title")))) {
+                    love = true;
+                    imageView_love.setImageResource(R.drawable.shoucang_ic_click);
+                }
+            } while (cursor.moveToNext());
+        }
         mySwipeRefreshLayout = findViewById(R.id.mainTop_activitySwipeRefreshLayout);
         mySwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

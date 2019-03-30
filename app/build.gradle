@@ -33,4 +33,7 @@ dependencies {
     implementation files('libs/volley.jar')
     implementation files('libs/glide-full-4.7.0.jar')
     implementation files('libs/annotation-4.7.0.jar')
+    //“我”的界面
+    implementation 'com.leon:lsettingviewlibrary:1.7.0'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }

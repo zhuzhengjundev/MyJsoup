@@ -1,7 +1,10 @@
 package cn.edu.jssvc.zhuzhengjun.myjsoup;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,32 +16,47 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.Buzhou;
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.BuzhouAdapter;
 import cn.edu.jssvc.zhuzhengjun.myjsoup.function.HttpRequest;
 import cn.edu.jssvc.zhuzhengjun.myjsoup.function.MyApplication;
 import cn.edu.jssvc.zhuzhengjun.myjsoup.function.MyListView;
+
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class Main2Activity extends AppCompatActivity implements View.OnTouchListener {
 
+    private MySQLiteOpenHelper mySQLiteOpenHelper;
+    private SQLiteDatabase db;
+
     private LinearLayout linearLayout_back;
+    private ImageView imageView_love;          //收藏
 
     private SwipeRefreshLayout mySwipeRefreshLayout;
 
     private LinearLayout linearLayout_huadong;
 
     private String intent_link;                 //接收的链接
+    private String intent_image;                //接收的图片
+    private String intent_title;                //接收的标题
+    private String intent_zuozhe;               //接收的作者
+    private String intent_time;                 //接收的时间
 
     private TextView textView_title,   //标题
             textView_name,              //网名
@@ -61,17 +79,50 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        mySQLiteOpenHelper = new MySQLiteOpenHelper(Main2Activity.this, MySQLiteOpenHelper.DBNAME, null, 1);
+        db = mySQLiteOpenHelper.getWritableDatabase();
         Intent intent = getIntent();
         intent_link = intent.getStringExtra("data");
+        intent_image = intent.getStringExtra("image");
+        intent_title = intent.getStringExtra("title");
+        intent_zuozhe = intent.getStringExtra("zuozhe");
+        intent_time = intent.getStringExtra("time");
+        Log.d("收到链接", intent_link + "     收到图片" + intent_image + "     收到标题：" + intent_title + "    收到作者：" + intent_zuozhe + "    收到时间：" + intent_time);
         init();
         getData();
-
+        addDB_1();
         SharedPreferences sharedPreferences = getSharedPreferences("isFirst",MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("key", false)) {
             Toast.makeText(Main2Activity.this,"点击右上角可查看作者往期作品",Toast.LENGTH_SHORT).show();
             SharedPreferences.Editor editor = getSharedPreferences("isFirst",MODE_PRIVATE).edit();
             editor.putBoolean("key", true);
             editor.apply();
+        }
+    }
+
+    private void addDB_1() {       //保存到历史记录的sqlite
+        ContentValues values = new ContentValues();
+        values.put("link", intent_link);
+        values.put("image", intent_image);
+        values.put("title", intent_title);
+        values.put("zuozhe", intent_zuozhe);
+        values.put("time", intent_time);
+        db.insert("lishi", null, values);
+    }
+
+    private void addDB_2(Boolean is,String time) {
+        if (is) {
+            ContentValues values = new ContentValues();
+            values.put("link", intent_link);
+            values.put("image", intent_image);
+            values.put("title", intent_title);
+            values.put("zuozhe", intent_zuozhe);
+            values.put("time", time);
+            db.insert("love", null, values);
+            Log.d("收藏", "成功");
+        }else {
+            db.delete("love", "title = ?", new String[]{intent_title});
+            Log.d("收藏", "失败");
         }
     }
 
@@ -132,6 +183,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
+    private Boolean love = false;
     private void init() {
         linearLayout_back = findViewById(R.id.main2_back);
         linearLayout_back.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +192,30 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
                 finish();
             }
         });
+        imageView_love = findViewById(R.id.main2_love_imageView);
+        imageView_love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (love == false){
+                    imageView_love.setImageResource(R.drawable.shoucang_ic_click);
+                    love = true;
+                    addDB_2(true,new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
+                }else{
+                    imageView_love.setImageResource(R.drawable.shoucang_ic);
+                    love = false;
+                    addDB_2(false,"");
+                }
+            }
+        });
+        Cursor cursor = db.rawQuery("select * from love", null);
+        if (cursor.moveToFirst()) {
+            do {
+                if (intent_title.equals(cursor.getString(cursor.getColumnIndex("title")))) {
+                    love = true;
+                    imageView_love.setImageResource(R.drawable.shoucang_ic_click);
+                }
+            } while (cursor.moveToNext());
+        }
         mySwipeRefreshLayout = findViewById(R.id.main2_activitySwipeRefreshLayout);
         mySwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

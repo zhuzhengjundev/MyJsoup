@@ -30,6 +30,16 @@
                 android:text="返回"/>
 
         </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/top_love_imageView"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:src="@drawable/shoucang_ic"/>
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

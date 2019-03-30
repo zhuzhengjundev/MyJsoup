@@ -22,7 +22,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.Meishi;
@@ -38,8 +40,12 @@ public class Fragment_homePage_1_5 extends Fragment {
     private ListView listView;
     private Meishi meishi;
     private List<Meishi> meishiList = new ArrayList<>();
-    private List<String> linksList = new ArrayList<>();
     private MeishiAdapter meishiAdapter;
+
+    private List<String> linksList = new ArrayList<>();    //链接
+    private List<String> imagesList = new ArrayList<>();   //图片
+    private List<String> titlesList = new ArrayList<>();    //标题
+    private List<String> zuozhesList = new ArrayList<>();   //作者
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +61,9 @@ public class Fragment_homePage_1_5 extends Fragment {
     }
 
     private void getData() {
+        zuozhesList.clear();
+        titlesList.clear();
+        imagesList.clear();
         linksList.clear();
         meishiList.clear();
         HttpRequest.get("https://home.meishichina.com/show-top-type-recipe-order-chef.html", new Response.Listener<String>() {
@@ -68,7 +77,12 @@ public class Fragment_homePage_1_5 extends Fragment {
                     Log.d("标题链接", link.select(".detail h2:lt(13)").text());
                     Log.d("作者链接", link.select(".detail p.subline a:lt(13)").text());
                     Log.d("配料链接", link.select(".detail p.subcontent:lt(13)").text());
+
                     linksList.add(link.select(".pic a:lt(13)").attr("href"));
+                    imagesList.add(link.select(".pic img:lt(13)").attr("data-src"));
+                    titlesList.add(link.select(".detail h2:lt(13)").text());
+                    zuozhesList.add(link.select(".detail p.subline a:lt(13)").text());
+
                     meishi = new Meishi();
                     meishi.setImage(link.select(".pic img:lt(13)").attr("data-src"));
                     meishi.setTitle(link.select(".detail h2 a:lt(13)").text());
@@ -97,6 +111,10 @@ public class Fragment_homePage_1_5 extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), Main2Activity.class);
                 intent.putExtra("data", linksList.get(position));
+                intent.putExtra("image", imagesList.get(position));
+                intent.putExtra("title", titlesList.get(position));
+                intent.putExtra("zuozhe", zuozhesList.get(position));
+                intent.putExtra("time", new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
                 startActivity(intent);
             }
         });
@@ -138,7 +156,7 @@ public class Fragment_homePage_1_5 extends Fragment {
     private int i = 1;
     private void update() {
         i ++;
-        if (i <= 5) {
+//        if (i <= 5) {
             HttpRequest.get("https://home.meishichina.com/show-top-type-recipe-order-chef-page-" + i + ".html", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String str) {
@@ -150,7 +168,12 @@ public class Fragment_homePage_1_5 extends Fragment {
                         Log.d("标题链接", link.select(".detail h2:lt(13)").text());
                         Log.d("作者链接", link.select(".detail p.subline a:lt(13)").text());
                         Log.d("配料链接", link.select(".detail p.subcontent:lt(13)").text());
+
                         linksList.add(link.select(".pic a:lt(13)").attr("href"));
+                        imagesList.add(link.select(".pic img:lt(13)").attr("data-src"));
+                        titlesList.add(link.select(".detail h2:lt(13)").text());
+                        zuozhesList.add(link.select(".detail p.subline a:lt(13)").text());
+
                         meishi = new Meishi();
                         meishi.setImage(link.select(".pic img:lt(13)").attr("data-src"));
                         meishi.setTitle(link.select(".detail h2 a:lt(13)").text());
@@ -164,10 +187,10 @@ public class Fragment_homePage_1_5 extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    Toast.makeText(MyApplication.mContext.getApplicationContext(), "网络连接超时", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApplication.mContext.getApplicationContext(), "到底了...", Toast.LENGTH_SHORT).show();
                     myXiala.setRefreshing(false);
                 }
             });
-        }
+//        }
     }
 }

@@ -21,7 +21,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.Meishi2;
@@ -36,9 +38,13 @@ public class Fragment_more_2_10 extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private GridView gridView;
     private Meishi2 meishi2;
-    private List<String> linksList = new ArrayList<>();
     private List<Meishi2> meishi2List = new ArrayList<>();
     private Meishi2Adapter meishi2Adapter;
+
+    private List<String> linksList = new ArrayList<>();    //链接
+    private List<String> imagesList = new ArrayList<>();   //图片
+    private List<String> titlesList = new ArrayList<>();    //标题
+    private List<String> zuozhesList = new ArrayList<>();   //作者
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +62,9 @@ public class Fragment_more_2_10 extends Fragment {
     private void getData() {
         meishi2List.clear();
         linksList.clear();
+        imagesList.clear();
+        titlesList.clear();
+        zuozhesList.clear();
         HttpRequest.get("https://home.meishichina.com/recipe.html", new Response.Listener<String>() {
             @Override
             public void onResponse(String str) {
@@ -69,7 +78,12 @@ public class Fragment_more_2_10 extends Fragment {
                     Log.d("link_链接", link.select("a").get(0).attr("href"));
                     meishi2 = new Meishi2(link.select("a").get(0).select("i img.imgLoad").attr("data-src"), link.select("a").get(0).select("p").text(), link.select("a").get(1).text());
                     meishi2List.add(meishi2);
+
                     linksList.add(link.select("a").get(0).attr("href"));
+                    imagesList.add(link.select("a").get(0).select("i img.imgLoad").attr("data-src"));
+                    titlesList.add(link.select("a").get(0).select("p").text());
+                    zuozhesList.add(link.select("a").get(1).text());
+
                     meishi2Adapter.notifyDataSetChanged();
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -100,6 +114,10 @@ public class Fragment_more_2_10 extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), Main2Activity.class);
                 intent.putExtra("data", linksList.get(position));
+                intent.putExtra("image", imagesList.get(position));
+                intent.putExtra("title", titlesList.get(position));
+                intent.putExtra("zuozhe", zuozhesList.get(position));
+                intent.putExtra("time", new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
                 startActivity(intent);
             }
         });

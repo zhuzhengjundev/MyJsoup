@@ -13,16 +13,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.Meishi3;
 import cn.edu.jssvc.zhuzhengjun.myjsoup.Adapter.Meishi3Adapter;
 import cn.edu.jssvc.zhuzhengjun.myjsoup.function.HttpRequest;
@@ -41,9 +47,13 @@ public class Main3Activity extends AppCompatActivity {
 
     private ListView listView;        //自定义ListView
     private Meishi3 meishi3;
-    private List<String> link_lists = new ArrayList<>();
     private List<Meishi3> meishi3List = new ArrayList<>();
     private Meishi3Adapter meishi3Adapter;
+
+    private List<String> linksLists = new ArrayList<>();    //链接
+    private List<String> imagesList = new ArrayList<>();   //图片
+    private List<String> titlesList = new ArrayList<>();    //标题
+    private String zuozhe = "";   //作者
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +67,9 @@ public class Main3Activity extends AppCompatActivity {
     }
 
     private void getData() {
-        link_lists.clear();
+        linksLists.clear();
+        imagesList.clear();
+        titlesList.clear();
         meishi3List.clear();
         HttpRequest.get2(jieshou_link, new Response.Listener<String>() {
             @Override
@@ -79,6 +91,7 @@ public class Main3Activity extends AppCompatActivity {
                         .transition(withCrossFade())
                         .into(imageView_touxiang);// 用ImageView 显示
                 textView_name.setText(links.select("div.space_info div.mod div.detail div.subname em a").text());
+                zuozhe = links.select("div.space_info div.mod div.detail div.subname em a").text();
                 String sex = links.select("div.space_info div.mod div.detail div.subname i").get(0).attr("class");
                 if (sex.indexOf("wo") == -1) {
                     Log.d("link_性别", "男");
@@ -103,7 +116,11 @@ public class Main3Activity extends AppCompatActivity {
                     Log.d("link—listView—时间",link.select("div.detail p.subline").text());
                     Log.d("link—listView—配料",link.select("div.detail p.subcontent").text());
                     Log.d("link—listView—浏览总数",link.select("div.detail div.substatus span.get_nums").removeAttr("style").text());
-                    link_lists.add(link.select("div.pic a").attr("href"));
+
+                    linksLists.add(link.select("div.pic a").attr("href"));
+                    imagesList.add(link.select("div.pic a img").attr("data-src"));
+                    titlesList.add(link.select("div.pic a").attr("title"));
+
                     meishi3 = new Meishi3(link.select("div.pic a img").attr("data-src"), link.select("div.pic a").attr("title"), link.select("div.detail p.subline").text(), link.select("div.detail p.subcontent").text(),"");
                     meishi3List.add(meishi3);
                     meishi3Adapter.notifyDataSetChanged();
@@ -152,7 +169,11 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Main3Activity.this, TopActivity.class);
-                intent.putExtra("data", link_lists.get(position));
+                intent.putExtra("data", linksLists.get(position));
+                intent.putExtra("image", imagesList.get(position));
+                intent.putExtra("title", titlesList.get(position));
+                intent.putExtra("zuozhe", zuozhe);
+                intent.putExtra("time", new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
                 startActivity(intent);
             }
         });
@@ -186,7 +207,7 @@ public class Main3Activity extends AppCompatActivity {
     private int i = 1;
     private void update() {
         i ++;
-        if (i <= 5) {
+//        if (i <= 5) {
             HttpRequest.get2(jieshou_links + "-do-recipe-page-"+i+".html", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String str) {
@@ -201,13 +222,17 @@ public class Main3Activity extends AppCompatActivity {
                         Log.d("link—listView—时间",link.select("div.detail p.subline").text());
                         Log.d("link—listView—配料",link.select("div.detail p.subcontent").text());
                         Log.d("link—listView—浏览总数",link.select("div.detail div.substatus span.get_nums").text());
-                        link_lists.add(link.select("div.pic a").attr("href"));
+
+                        linksLists.add(link.select("div.pic a").attr("href"));
+                        imagesList.add(link.select("div.pic a img").attr("data-src"));
+                        titlesList.add(link.select("div.pic a").attr("title"));
+
                         meishi3 = new Meishi3(link.select("div.pic a img").attr("data-src"), link.select("div.pic a").attr("title"), link.select("div.detail p.subline").text(), link.select("div.detail p.subcontent").text(),"");
                         meishi3List.add(meishi3);
                         meishi3Adapter.notifyDataSetChanged();
                     }
                 }
             },null );
-        }
+//        }
     }
 }
