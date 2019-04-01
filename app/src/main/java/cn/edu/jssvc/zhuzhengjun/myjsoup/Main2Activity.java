@@ -46,6 +46,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
     private SQLiteDatabase db;
 
     private LinearLayout linearLayout_back;
+    private LinearLayout linearLayout_boli;
     private ImageView imageView_love;          //收藏
 
     private SwipeRefreshLayout mySwipeRefreshLayout;
@@ -94,6 +95,13 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
         SharedPreferences sharedPreferences = getSharedPreferences("isFirst",MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("key", false)) {
             Toast.makeText(Main2Activity.this,"点击右上角可查看作者往期作品",Toast.LENGTH_SHORT).show();
+            linearLayout_boli.setVisibility(View.VISIBLE);
+            linearLayout_boli.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    linearLayout_boli.setVisibility(View.GONE);
+                }
+            });
             SharedPreferences.Editor editor = getSharedPreferences("isFirst",MODE_PRIVATE).edit();
             editor.putBoolean("key", true);
             editor.apply();
@@ -185,6 +193,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
 
     private Boolean love = false;
     private void init() {
+        linearLayout_boli = findViewById(R.id.mian2_bolitishi);
+        linearLayout_boli.setVisibility(View.GONE);
         linearLayout_back = findViewById(R.id.main2_back);
         linearLayout_back.setOnClickListener(new View.OnClickListener() {
             @Override
