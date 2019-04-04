@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,10 @@ import cn.edu.jssvc.zhuzhengjun.myjsoup.fragment_homepage_1.Fragment_homePage_1_
 public class Fragment_homePage_1 extends Fragment implements View.OnClickListener {
 
     private TextView textView_title_1,textView_title_2,textView_title_3,textView_title_4,textView_title_5;
+    private ViewPager myViewPager;
+
+    private List<Fragment> fragmentList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,14 +38,13 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        loadFragment(0);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.myFragment_1_fragmentView_textView_1:
-                loadFragment(0);
+                myViewPager.setCurrentItem(0);
                 textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
                 textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
@@ -48,7 +52,7 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
                 textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 break;
             case R.id.myFragment_1_fragmentView_textView_2:
-                loadFragment(1);
+                myViewPager.setCurrentItem(1);
                 textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
                 textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
@@ -56,7 +60,7 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
                 textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 break;
             case R.id.myFragment_1_fragmentView_textView_3:
-                loadFragment(2);
+                myViewPager.setCurrentItem(2);
                 textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
@@ -64,7 +68,7 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
                 textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 break;
             case R.id.myFragment_1_fragmentView_textView_4:
-                loadFragment(3);
+                myViewPager.setCurrentItem(3);
                 textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
@@ -72,7 +76,7 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
                 textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 break;
             case R.id.myFragment_1_fragmentView_textView_5:
-                loadFragment(4);
+                myViewPager.setCurrentItem(4);
                 textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
                 textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
@@ -95,30 +99,69 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
         textView_title_3.setOnClickListener(this);
         textView_title_4.setOnClickListener(this);
         textView_title_5.setOnClickListener(this);
+        fragmentList = new ArrayList<>();
         fragmentList.add(new Fragment_homePage_1_1());
         fragmentList.add(new Fragment_homePage_1_2());
         fragmentList.add(new Fragment_homePage_1_3());
         fragmentList.add(new Fragment_homePage_1_4());
         fragmentList.add(new Fragment_homePage_1_5());
+        FragmentManager fragmentManager = getFragmentManager();
+        myViewPager = getActivity().findViewById(R.id.myFragment_1_ViewPager);
+        myViewPager.setAdapter(new Fragment_1_ViewPager(fragmentManager, fragmentList));
+        myViewPager.setOnPageChangeListener(listener);
+        myViewPager.setCurrentItem(0);
+
     }
 
-    private Fragment mFrag;
-    private List<Fragment> fragmentList = new ArrayList<>();
-    private void loadFragment(int position) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Fragment fragment = fragmentList.get(position);
-        if(mFrag != null) {
-            transaction.hide(mFrag);
-        }
-        if(!fragment.isAdded()) {
-            transaction.add(R.id.myFragment_1_fragmentView, fragment);
+    private ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
 
-        } else {
-            transaction.show(fragment);
         }
-        mFrag = fragment;
-        transaction.commit();
+
+        @Override
+        public void onPageSelected(int i) {
+            fragmentList.get(i);
+            tilte(i);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    };
+
+    private void tilte(int i) {
+        if (i == 0) {
+            textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+        } else if (i == 1) {
+            textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+        } else if (i == 2) {
+            textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+        } else if (i == 3) {
+            textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+        } else if (i == 4) {
+            textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+        }
     }
-
 }
