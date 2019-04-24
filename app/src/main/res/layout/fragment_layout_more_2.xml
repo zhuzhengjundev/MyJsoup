@@ -22,7 +22,9 @@
         <LinearLayout
             android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_1"
                 android:layout_width="match_parent"
@@ -31,6 +33,8 @@
                 android:gravity="center"
                 android:background="@drawable/background_click"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="最新推荐"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_2"
@@ -40,6 +44,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="最新发布"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_3"
@@ -49,6 +55,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="热菜"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_4"
@@ -58,6 +66,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="凉菜"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_5"
@@ -67,6 +77,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="汤羹"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_6"
@@ -76,6 +88,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="主食"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_7"
@@ -85,6 +99,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="小吃"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_8"
@@ -94,6 +110,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="西餐"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_9"
@@ -103,6 +121,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="烘焙"/>
             <TextView
                 android:id="@+id/myFragment_2_fragmentView_textView_10"
@@ -112,6 +132,8 @@
                 android:gravity="center"
                 android:background="@drawable/background"
                 android:textSize="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:text="自制食材"/>
         </LinearLayout>
 
