@@ -58,6 +58,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
     private String intent_title;                //接收的标题
     private String intent_zuozhe;               //接收的作者
     private String intent_time;                 //接收的时间
+    private String intent_isLishi;              //接收的key值（是不是从历史页过来的）
 
     private TextView textView_title,   //标题
             textView_name,              //网名
@@ -88,6 +89,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
         intent_title = intent.getStringExtra("title");
         intent_zuozhe = intent.getStringExtra("zuozhe");
         intent_time = intent.getStringExtra("time");
+        intent_isLishi = intent.getStringExtra("isLishi");
         Log.d("收到链接", intent_link + "     收到图片" + intent_image + "     收到标题：" + intent_title + "    收到作者：" + intent_zuozhe + "    收到时间：" + intent_time);
         init();
         getData();
@@ -109,13 +111,31 @@ public class Main2Activity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void addDB_1() {       //保存到历史记录的sqlite
-        ContentValues values = new ContentValues();
-        values.put("link", intent_link);
-        values.put("image", intent_image);
-        values.put("title", intent_title);
-        values.put("zuozhe", intent_zuozhe);
-        values.put("time", intent_time);
-        db.insert("lishi", null, values);
+        if(intent_isLishi.equals("yes")){
+            ContentValues values = new ContentValues();
+            values.put("link", intent_link);
+            values.put("image", intent_image);
+            values.put("title", intent_title);
+            values.put("zuozhe", intent_zuozhe);
+            values.put("time", intent_time);
+            db.insert("lishi", null, values);
+        }else{
+            Cursor cursor = db.rawQuery("select * from lishi", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    if(cursor.getString(cursor.getColumnIndex("link")).equals(intent_link)){
+                        db.delete("lishi", "link=?", new String[] { cursor.getString(cursor.getColumnIndex("link")) });
+                    }
+                } while (cursor.moveToNext());
+            }
+            ContentValues values = new ContentValues();
+            values.put("link", intent_link);
+            values.put("image", intent_image);
+            values.put("title", intent_title);
+            values.put("zuozhe", intent_zuozhe);
+            values.put("time", intent_time);
+            db.insert("lishi", null, values);
+        }
     }
 
     private void addDB_2(Boolean is,String time) {

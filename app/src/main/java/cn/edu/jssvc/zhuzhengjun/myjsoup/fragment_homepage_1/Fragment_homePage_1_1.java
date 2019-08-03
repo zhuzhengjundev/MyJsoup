@@ -116,6 +116,7 @@ public class Fragment_homePage_1_1 extends Fragment {
                 intent.putExtra("title", titlesList.get(position));
                 intent.putExtra("zuozhe", zuozhesList.get(position));
                 intent.putExtra("time", new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
+                intent.putExtra("isLishi", "yes");
                 startActivity(intent);
             }
         });

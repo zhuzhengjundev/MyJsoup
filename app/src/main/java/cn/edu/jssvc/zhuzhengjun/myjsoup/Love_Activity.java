@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,6 +65,11 @@ public class Love_Activity extends AppCompatActivity {
                 intent1.putExtra("title", titlesList.get(position));
                 intent1.putExtra("zuozhe", zuozhesList.get(position));
                 intent1.putExtra("time", new SimpleDateFormat("MM-dd HH:mm").format(new Date(System.currentTimeMillis())));
+                if (isLove.equals("收藏")) {
+                    intent1.putExtra("isLishi", "yes");
+                }else {
+                    intent1.putExtra("isLishi", "no");
+                }
                 startActivity(intent1);
             }
         });
@@ -96,6 +102,11 @@ public class Love_Activity extends AppCompatActivity {
                 zuozhesList.add(cursor.getString(cursor.getColumnIndex("zuozhe")));
             } while (cursor.moveToNext());
         }
+        Collections.reverse(loveList);
+        Collections.reverse(linksList);
+        Collections.reverse(imagesList);
+        Collections.reverse(titlesList);
+        Collections.reverse(zuozhesList);
     }
 
     private void lishiData() {
@@ -116,6 +127,26 @@ public class Love_Activity extends AppCompatActivity {
                 zuozhesList.add(cursor.getString(cursor.getColumnIndex("zuozhe")));
             } while (cursor.moveToNext());
         }
+        Collections.reverse(loveList);
+        Collections.reverse(linksList);
+        Collections.reverse(imagesList);
+        Collections.reverse(titlesList);
+        Collections.reverse(zuozhesList);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (isLove.equals("收藏")) {
+            listView = findViewById(R.id.mainLove_listView);
+            loveAdapter = new LoveAdapter(Love_Activity.this,R.layout.love_listview_item_listview, loveList);
+            listView.setAdapter(loveAdapter);
+            loveData();
+        }else {
+            listView = findViewById(R.id.mainLove_listView);
+            loveAdapter = new LoveAdapter(Love_Activity.this,R.layout.love_listview_item_listview,loveList);
+            listView.setAdapter(loveAdapter);
+            lishiData();
+        }
+    }
 }
