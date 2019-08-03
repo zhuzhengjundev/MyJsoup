@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Love_Activity extends AppCompatActivity {
     private MySQLiteOpenHelper mySQLiteOpenHelper;
     private SQLiteDatabase db;
 
+    private TextView textView_title;
     private ListView listView;
     private Love love;
     private List<Love> loveList = new ArrayList<>();
@@ -46,11 +48,13 @@ public class Love_Activity extends AppCompatActivity {
         final Intent intent = getIntent();
         isLove = intent.getStringExtra("isLOVE");
         if (isLove.equals("收藏")) {
+            textView_title.setText("收藏");
             listView = findViewById(R.id.mainLove_listView);
             loveAdapter = new LoveAdapter(Love_Activity.this,R.layout.love_listview_item_listview, loveList);
             listView.setAdapter(loveAdapter);
             loveData();
         }else {
+            textView_title.setText("历史");
             listView = findViewById(R.id.mainLove_listView);
             loveAdapter = new LoveAdapter(Love_Activity.this,R.layout.love_listview_item_listview,loveList);
             listView.setAdapter(loveAdapter);
@@ -75,6 +79,7 @@ public class Love_Activity extends AppCompatActivity {
         });
     }
     private void init() {
+        textView_title = findViewById(R.id.title);
         linearLayout_back = findViewById(R.id.mainLove_back);
         linearLayout_back.setOnClickListener(new View.OnClickListener() {
             @Override

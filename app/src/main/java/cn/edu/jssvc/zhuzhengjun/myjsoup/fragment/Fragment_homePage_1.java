@@ -1,10 +1,10 @@
 package cn.edu.jssvc.zhuzhengjun.myjsoup.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,34 +134,59 @@ public class Fragment_homePage_1 extends Fragment implements View.OnClickListene
     private void tilte(int i) {
         if (i == 0) {
             textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_1.setTextColor(Color.WHITE);
             textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_2.setTextColor(Color.BLACK);
+            textView_title_3.setTextColor(Color.BLACK);
+            textView_title_4.setTextColor(Color.BLACK);
+            textView_title_5.setTextColor(Color.BLACK);
         } else if (i == 1) {
             textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_2.setTextColor(Color.WHITE);
             textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_1.setTextColor(Color.BLACK);
+            textView_title_3.setTextColor(Color.BLACK);
+            textView_title_4.setTextColor(Color.BLACK);
+            textView_title_5.setTextColor(Color.BLACK);
         } else if (i == 2) {
             textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_3.setTextColor(Color.WHITE);
             textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_1.setTextColor(Color.BLACK);
+            textView_title_2.setTextColor(Color.BLACK);
+            textView_title_4.setTextColor(Color.BLACK);
+            textView_title_5.setTextColor(Color.BLACK);
         } else if (i == 3) {
             textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_4.setTextColor(Color.WHITE);
             textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+            textView_title_1.setTextColor(Color.BLACK);
+            textView_title_2.setTextColor(Color.BLACK);
+            textView_title_3.setTextColor(Color.BLACK);
+            textView_title_5.setTextColor(Color.BLACK);
         } else if (i == 4) {
             textView_title_1.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_2.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_3.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_4.setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
             textView_title_5.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_click));
+            textView_title_1.setTextColor(Color.BLACK);
+            textView_title_2.setTextColor(Color.BLACK);
+            textView_title_3.setTextColor(Color.BLACK);
+            textView_title_4.setTextColor(Color.BLACK);
+            textView_title_5.setTextColor(Color.WHITE);
         }
     }
 }
