@@ -65,7 +65,7 @@ public class Fragment_more_2_6 extends Fragment {
         imagesList.clear();
         titlesList.clear();
         zuozhesList.clear();
-        HttpRequest.get("https://home.meishichina.com/recipe.html", new Response.Listener<String>() {
+        HttpRequest.get2("https://home.meishichina.com/recipe.html", new Response.Listener<String>() {
             @Override
             public void onResponse(String str) {
                 Document document = Jsoup.parse(str);

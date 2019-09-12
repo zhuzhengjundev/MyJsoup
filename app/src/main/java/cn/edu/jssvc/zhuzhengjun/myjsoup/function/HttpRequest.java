@@ -38,8 +38,7 @@ public class HttpRequest {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            return Response.success(str,
-                    HttpHeaderParser.parseCacheHeaders(response));
+            return Response.success(str, HttpHeaderParser.parseCacheHeaders(response));
         }
     }
 
